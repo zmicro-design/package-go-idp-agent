@@ -1,0 +1,45 @@
+#!/bin/bash
+
+export PACKAGE_NAME="go-idp-agent"
+import "$ZMICRO_PACKAGES_PATH/$PACKAGE_NAME/config"
+import "$ZMICRO_PACKAGES_PATH/$PACKAGE_NAME/core"
+
+help() {
+  echo "Usage:"
+  echo "  zmicro go-idp-agent <args ...>"
+  echo ""
+
+  go-idp-agent --help
+}
+
+version() {
+  go-idp-agent --version
+}
+
+core() {
+  # context directory
+  local context="$ZMICRO_PACKAGES_DATA_PATH/go-idp-agent"
+  if [ ! -d "$context" ]; then
+    mkdir -p $context
+  fi
+  cd $context
+  # context directory
+
+  case $1 in
+  -h | --help | help)
+    help
+    ;;
+  -v | --version | version)
+    version
+    ;;
+  *)
+    go-idp-agent "$@"
+    ;;
+  esac
+}
+
+run() {
+  core "$@"
+}
+
+run "$@"
